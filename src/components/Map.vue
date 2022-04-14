@@ -23,8 +23,18 @@
         <l-geo-json
             :geojson="geojson" 
             :options="options"
-            :options-style="styleFunction"
+            :options-style="styleFunction" 
         />    
+        <!-- <div
+            v-for="(feature, index) in geojson.features"
+            :key="'circle' + feature.properties.COD_INE">
+            <l-circle-marker
+                :lat-lng="getLatLong(feature.properties.CENTER_LAT, feature.properties.CENTER_LONG)"
+                :interactive="false"
+                :radius="radius[index]">
+            </l-circle-marker>
+        </div> -->
+
 
          <!-- Leaflet control tools here: -->
         <l-control-scale position="bottomright" :imperial="false" :metric="true" /> 
@@ -58,31 +68,33 @@ export default {
     },
     data() {
         return {
-            center: [41.97950, -101.74180],
+            center: [34.82688, -156.05821],
             zoom: 3,
             maxZoom: 8,
             geojson: null,
+            loading: false,
+            enableTooltip: true,
+            fillColor: "#e4ce7f",
             tileProviders: [
+                {name: 'Stamen.Watercolor',
+                url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.png',
+                attribution:'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                },
                 {
                 name: 'OpenStreetMap',
-                visible: true,
-                attribution:
-                    '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
                 url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                attribution:'&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
                 },
                 {
                 name: 'ESRI_WorldImagery',
-                visible: false,
                 url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
                 attribution:
                     'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
                 },
                 {
-                name: 'OpenTopoMap',
-                visible: false,
-                url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-                attribution:
-                    'TMap data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+                name: 'Stamen.TerrainBackground',
+                url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}{r}.png',
+                attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                 },
             ],
         };
@@ -111,12 +123,9 @@ export default {
             }
             return (feature, layer) => {
                 layer.bindTooltip(
-                    "<div>code:" +
-                        feature.properties.code +
-                        "</div><div>nom: " +
-                        feature.properties.nom +
-                        "</div>",
-                    { permanent: false, sticky: true }
+                    "<b>magnitude:</b> " + feature.properties.mag + "<br/>" +
+                        "<b>place:</b> " + feature.properties.place + "<br/>" +
+                        "<b>time:</b> "+ Date(feature.properties.time),{ permanent: false, sticky: true }
                     );
             };
         }
