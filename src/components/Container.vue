@@ -31,11 +31,10 @@
 
 <script>
 
-
 export default {
     name: 'Container',
-    components: {},
-
+    components: { },
+    props: {geojson: Object},
     data: function () {
         return {
             doShow: true,
@@ -50,7 +49,7 @@ export default {
         }
     },
     computed: {
-
+     
     },
 }
 </script>
@@ -83,7 +82,7 @@ export default {
 
 #handle {
   cursor: pointer;
-  background-color: rgba(31, 221, 148, 0.925);
+  background-color: white;
   border-top: 1px solid #aaa;
   border-right: 1px solid #aaa;
   border-bottom: 1px solid #aaa;
@@ -101,6 +100,10 @@ export default {
   transition: left 0.1s ease-in;
 }
 
+#handle:hover {
+  background-color: rgba(31, 221, 148, 0.925);
+}
+
 #handle.show {
   left: 33%;
   transition: left 0.1s ease-in;
@@ -113,6 +116,8 @@ export default {
   border-radius: 0px;
   padding: 10px 0 0 10px;
   text-align: center;
+
+  font-size: 0.9vw;
 
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }

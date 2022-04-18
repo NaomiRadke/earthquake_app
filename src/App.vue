@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Map />
+    <Map :geojson=geojson />
   </div>
   <div>
-    <Container />
+    <Container :geojson=geojson />
   </div>
   
 </template>
@@ -17,7 +17,21 @@ export default {
   components: {
     Map,
     Container
-  }
+  },
+  data() {
+    return {
+      geojson: null,
+      loading: false,
+    }
+  },
+  async created() {
+        this.loading = true;
+        const response = await fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson")
+        const data = await response.json();
+        this.geojson = data;
+        this.loading = false;
+        console.log(this.geojson)
+  }  
 }
 </script>
 
