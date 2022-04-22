@@ -24,24 +24,8 @@
         <!-- Add geojson data -->
         <l-geo-json
             :geojson="geojson" 
-            :options="options"
-            visible=false
+            :options="geojsonOptions"
         />    
-        <!-- :options-style="styleFunction"  -->
-
-        <!-- Check this: https://github.com/vue-leaflet/Vue2Leaflet/issues/358 -->
-        <div
-            v-for="feature in features"
-            :key="feature.id">
-            <l-circle-marker
-                :lat-lng="feature.latlng"
-                :radius="radius"
-                :popup="popup"
-                >
-            </l-circle-marker>
-        </div>
-    
-
 
          <!-- Leaflet control tools here: -->
         <l-control-scale position="bottomright" :imperial="false" :metric="true" /> 
@@ -59,8 +43,7 @@ import {
   LControlLayers,
   LControlScale,
   LControlZoom,
-  LGeoJson,
-  LCircleMarker
+  LGeoJson
   
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -73,9 +56,7 @@ export default {
         LControlLayers,
         LControlScale,
         LControlZoom,
-        LGeoJson,
-        LCircleMarker
-      
+        LGeoJson
     },
     props: {geojson: Object},
     data() {
@@ -83,9 +64,7 @@ export default {
             center: [34.82688, -156.05821],
             zoom: 3,
             minZoom: 2,
-            fillColor: "#e4ce7f",
-            radius:6,
-            popup:'hi there',
+            geojsonOptions: {},
             tileProviders: [
                 {
                 name: 'OpenStreetMap',
@@ -109,46 +88,40 @@ export default {
                 },
                 
             ],
-            features: [
-                {id:1, latlng:[33.0125, -116.4958333]},
-                {id:2, latlng:[33.9655, -117.1318333]}
-            ]
         };
     },
-    computed: {
-        options() {
-            return {
-                onEachFeature: this.onEachFeatureFunction,
-            }; 
-        },
-        styleFunction() {
-            const fillColor = this.fillColor; // important! need touch fillColor in computed for re-calculate when change fillColor
-            return () => {
-                return {
-                weight: 2,
-                color: "#ECEFF1",
-                opacity: 0.2,
-                fillColor: fillColor,
-                fillOpacity: 1
-                };
-            };
-        },
-        onEachFeatureFunction() {
-        
-            return (feature, layer) => {
-                layer.bindTooltip(
+
+
+    async beforeMount() {
+        // HERE is where to load Leaflet components!
+        const { circleMarker } = await import("leaflet/dist/leaflet-src.esm");
+
+        // And now the Leaflet circleMarker function can be used by the options:
+        this.geojsonOptions.pointToLayer = (feature, latLng) =>
+            circleMarker(latLng, { 
+                radius: feature.properties.mag*5,
+                stroke: false,
+                fillColor: '#eb4034',
+                fillOpacity: 0.5,
+                className: 'circle'
+                });
+
+        this.geojsonOptions.onEachFeature = (feature, layer) => {
+            layer.bindTooltip(
                     "<b>magnitude:</b> " + feature.properties.mag + "<br/>" +
-                        "<b>place:</b> " + feature.properties.place + "<br/>" +
-                        "<b>time:</b> "+ Date(feature.properties.time),{ permanent: false, sticky: true }
-                    );
-            };
-        },
-        getLatLng(lat, long) {
-            var latLng = [];
-            latLng.push(lat, long);
-            console.log("latlng: "+latLng)
-            return latLng;
+                    "<b>place:</b> " + feature.properties.place + "<br/>" +
+                    "<b>time:</b> "+ Date(feature.properties.time),{ permanent: false, sticky: true }
+            );
         }
+
+        this.mapIsReady = true;
+    },
+
+    computed: {
+        markerSize(mag) {
+                return mag * 25000
+            },
+
     },
 }
 </script>	
@@ -167,4 +140,10 @@ export default {
 .l-control-layers { 
   text-align: left; 
 }
+
+.circle:hover {
+ fill: greenyellow;
+}
+
+
 </style>
