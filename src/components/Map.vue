@@ -65,6 +65,8 @@ export default {
             zoom: 3,
             minZoom: 2,
             geojsonOptions: {},
+            circleColor:'#eb4034',
+            highlightColor:'#ffff00',
             tileProviders: [
                 {
                 name: 'OpenStreetMap',
@@ -90,10 +92,11 @@ export default {
             ],
         };
     },
+   
 
 
     async beforeMount() {
-        // HERE is where to load Leaflet components!
+        // Load leaflet components (here, circleMarker)
         const { circleMarker } = await import("leaflet/dist/leaflet-src.esm");
 
         // And now the Leaflet circleMarker function can be used by the options:
@@ -101,10 +104,11 @@ export default {
             circleMarker(latLng, { 
                 radius: feature.properties.mag*5,
                 stroke: false,
-                fillColor: '#eb4034',
+                fillColor: this.circleColor,
                 fillOpacity: 0.5,
-                className: 'circle'
-                });
+                className: 'circle',
+                pane: 'markerPane'
+            });
 
         this.geojsonOptions.onEachFeature = (feature, layer) => {
             layer.bindTooltip(
@@ -112,7 +116,18 @@ export default {
                     "<b>place:</b> " + feature.properties.place + "<br/>" +
                     "<b>time:</b> "+ Date(feature.properties.time),{ permanent: false, sticky: true }
             );
-        }
+            layer.on('mouseover', function() {
+                layer.setStyle({fillColor: '#ffff00'})
+            });
+            layer.on('mouseout', function() {
+                layer.setStyle({fillColor: '#eb4034'})
+            });
+            layer.on('click', function() {
+                console.log('click')
+                this.emitter.emit("showInfo", this.geojson)
+            })
+        },
+       
 
         this.mapIsReady = true;
     },
@@ -141,9 +156,9 @@ export default {
   text-align: left; 
 }
 
-.circle:hover {
+/* .circle:hover {
  fill: greenyellow;
-}
+} */
 
 
 </style>

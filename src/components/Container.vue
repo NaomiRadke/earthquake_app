@@ -4,11 +4,6 @@
            <h1>..__/\/^- earthquake watch -^\/\__.. </h1>
         </div>
 
-        <div id="menue-bar">
-      
-          <slot name="menue-bar"></slot>
-        </div>
-
         <div id="section-header">
        
           <slot name="section-header"></slot>
@@ -20,7 +15,12 @@
 
         </div>
         <div id="content-body"> 
-          <slot name="content-body"> Hier kommt Content rein </slot>
+          <p> This map visualizes earth quake data of the past day across the world. 
+              The data is updated every minute and sourced from the US government's <a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php">earthquake API</a>.
+          </p>
+          <p> The individual circle size is based on the earthquake's magnitue</p>
+          
+          <eqInfo />
         </div> 
 
     </div>
@@ -30,10 +30,11 @@
 </template>
 
 <script>
+import eqInfo from "@/views/eqInfo.vue";
 
 export default {
     name: 'Container',
-    components: { },
+    components: { eqInfo },
     props: {geojson: Object},
     data: function () {
         return {
@@ -122,22 +123,6 @@ export default {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
-#menue-bar {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-
-  height: 30px;
-  padding: 5px 0 5px 0;
-
-  border-style: solid;
-  border-color: var(--accent);
-  border-width: 0 0 1px 0;
-
-  background-color: var(--background);
-
-  z-index: 10;
-}
 
 #section-header {
     padding-top: 10px;
