@@ -1,25 +1,13 @@
 <template>
+    <div id="header"> 
+        <h1>..__/\/^- earthquake watch -^\/\__.. </h1>
+    </div>
     <div id="container-wrapper" :class="{show: doShow}"> <!--:style="{width: getContainerWidth}"-->
-        <div id="header"> 
-           <h1>..__/\/^- earthquake watch -^\/\__.. </h1>
-        </div>
-
-        <div id="section-header">
-       
-          <slot name="section-header"></slot>
-        
-        </div>
-        <div id="forward-backward">
-       
-          <slot name="forward-backward"></slot>
-
-        </div>
         <div id="content-body"> 
           <p> This map visualizes earth quake data of the past day across the world. 
               The data is updated every minute and sourced from the US government's <a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php">earthquake API</a>.
           </p>
-          <p> The individual circle size is based on the earthquake's magnitue</p>
-          
+          <p> The individual circle size is based on the earthquake's magnitude.</p>
           <eqInfo />
         </div> 
 
@@ -58,18 +46,18 @@ export default {
 <style scoped>
 #container-wrapper {
   position: absolute;
-  top: 0px;
+  top: 80px;
+  bottom: 30px;
   left: -33%;
   transition: left 0.1s ease-in;
   z-index: 80;
 
   width: 33%;
-  height: 100%;
-  overflow: scroll;
+  overflow: auto;
 
   background-color: white;
   border: 1px solid var(--accent);
-  border-radius: 10px;
+  border-radius: 0 10px 10px 0;
   opacity: 0.8;
   padding: 0px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -111,40 +99,29 @@ export default {
 }
 
 #header {
-  position: sticky;
-  background-color: var(--background);
-  border: 1px solid var(--background);
+  position: fixed;
+  background-color: white;
+  border: 1px solid white;
   border-radius: 0px;
-  padding: 10px 0 0 10px;
+  opacity: 0.8;
   text-align: center;
+  width: 33%;
+  height: 55px;
+  left: 0px;
+  top: 15px;
+  
 
   font-size: 0.9vw;
 
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-}
-
-
-#section-header {
-    padding-top: 10px;
-    padding-bottom: 5px;
-}
-
-#section-header .unicon {
-    float: left;
-    position: relative;
-    top: -1px;
-    margin-right: 10px;
-}
-
-#forward-backward {
-  padding-left: 25px;
-  padding-right: 25px;
-
+  /* box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19); */
 }
 
 #content-body{
-    overflow-y: scroll;
-    padding: 25px 50px 25px 50px;
+    overflow: auto;
+    padding: 10px 50px 10px 50px;
+}
+p{
+  font-size: 0.9vw;
 }
 
 

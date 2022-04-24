@@ -47,6 +47,7 @@ import {
   
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
+import { mapActions } from 'vuex';
 
 export default {
     name: 'Map',
@@ -56,7 +57,8 @@ export default {
         LControlLayers,
         LControlScale,
         LControlZoom,
-        LGeoJson
+        LGeoJson,
+        mapActions
     },
     props: {geojson: Object},
     data() {
@@ -67,6 +69,7 @@ export default {
             geojsonOptions: {},
             circleColor:'#eb4034',
             highlightColor:'#ffff00',
+            curr_data: {},
             tileProviders: [
                 {
                 name: 'OpenStreetMap',
@@ -111,6 +114,7 @@ export default {
             });
 
         this.geojsonOptions.onEachFeature = (feature, layer) => {
+            var self = this;
             layer.bindTooltip(
                     "<b>magnitude:</b> " + feature.properties.mag + "<br/>" +
                     "<b>place:</b> " + feature.properties.place + "<br/>" +
@@ -123,11 +127,12 @@ export default {
                 layer.setStyle({fillColor: '#eb4034'})
             });
             layer.on('click', function() {
-                console.log('click')
-                this.emitter.emit("showInfo", this.geojson)
-            })
+                self.curr_data = feature.properties
+                self.UPDATE_CURRDATA({data: self.curr_data})
+                
+            });
+            
         },
-       
 
         this.mapIsReady = true;
     },
@@ -135,8 +140,10 @@ export default {
     computed: {
         markerSize(mag) {
                 return mag * 25000
-            },
-
+        },
+    },
+    methods: {
+        ...mapActions(['UPDATE_CURRDATA']),
     },
 }
 </script>	

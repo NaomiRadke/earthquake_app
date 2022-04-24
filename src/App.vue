@@ -30,7 +30,6 @@ export default {
         const data = await response.json();
         this.geojson = data;
         this.loading = false;
-        console.log(this.geojson)
   }  
 }
 </script>

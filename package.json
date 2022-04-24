@@ -11,6 +11,7 @@
     "@vue-leaflet/vue-leaflet": "^0.6.1",
     "axios": "^0.26.1",
     "core-js": "^3.6.5",
+    "mitt": "^3.0.0",
     "vue": "^3.0.0",
     "vuex": "^4.0.2"
   },
@@ -35,7 +36,9 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "vue/no-unused-components": "off"
+    }
   },
   "browserslist": [
     "> 1%",
