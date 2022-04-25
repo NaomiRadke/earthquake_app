@@ -30,4 +30,15 @@ yarn install
 yarn serve
 ```
 
+#### App file structure
+The most relevant folders + files:
+
+**public/**
+**src/**               contains the source files of the app
+    **components/**    contains the Map and Container components that are imported into App.vue 
+    **views/**         contains the script that shows the earthquake data when a data point is clicked
+    App.vue            root component of the app
+    main.js            initializes the root component
+ package.json          configurations like installed dependencies, among others 
+
 **Questions?** Feel free to contact me via naomiradke@hotmail.com.
