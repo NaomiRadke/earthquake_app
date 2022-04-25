@@ -10,21 +10,22 @@ Technologies used: [Vue 3](https://vuejs.org/)(JavaScript-based framework) and [
 You can view the running app here: [https://naomiradke.github.io/earthquake_app/](https://naomiradke.github.io/earthquake_app/)
 
 
-## Optional: Run locally
+### Optional: Run locally
 If you would like to run the app locally, follow these steps:
 
-### 1 - Clone this repository to your local machine
+#### 1 - Clone this repository to your local machine
 In your terminal move into your desired target directory and run:
 ```
 git clone https://github.com/NaomiRadke/earthquake_app
 ```
-### 2 - Install dependencies
+#### 2 - Install dependencies
 `cd` into the local app directory and run
 ```
+cd earthquake_app
 yarn install
 ```
 
-### 3 - Run the app on the development server
+#### 3 - Run the app on the development server
 ```
 yarn serve
 ```
