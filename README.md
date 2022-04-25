@@ -7,31 +7,26 @@ It visualizes the fetched data on a [Leaflet](https://leafletjs.com/) map and di
 
 Technologies used: [Vue 3](https://vuejs.org/)(JavaScript-based framework) and [Leaflet](https://leafletjs.com/) for geodata processing and visualization.
 
-You can view the running app here: 
+You can view the running app here: [https://naomiradke.github.io/earthquake_app/](https://naomiradke.github.io/earthquake_app/)
 
 
 ## Optional: Run locally
 If you would like to run the app locally, follow these steps:
 
-## Project setup
+### 1 - Clone this repository to your local machine
+In your terminal move into your desired target directory and run:
+```
+git clone https://github.com/NaomiRadke/earthquake_app
+```
+### 2 - Install dependencies
+`cd` into the local app directory and run
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### 3 - Run the app on the development server
 ```
 yarn serve
 ```
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Questions? Feel free to contact me via naomiradke@hotmail.com.
