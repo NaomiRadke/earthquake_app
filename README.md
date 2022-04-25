@@ -30,4 +30,4 @@ yarn install
 yarn serve
 ```
 
-Questions? Feel free to contact me via naomiradke@hotmail.com.
+**Questions?** Feel free to contact me via naomiradke@hotmail.com.
